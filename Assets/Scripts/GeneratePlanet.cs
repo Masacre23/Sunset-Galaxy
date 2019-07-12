@@ -196,13 +196,9 @@ public class GeneratePlanet : MonoBehaviour {
            print(dist.magnitude);*/
         switch (prismPosition) {
             case PrismData.PrismPosition.DOWN:
-                print(oppositeVertices.toString());
-                /*if (downPrismData == null) {
-                    data.height = 0;
-                } else {
-                    data.prismDown = downPrismData.gameObject;
-                    data.height = downPrismData.height + 1;
-                }*/
+                //print(oppositeVertices.toString());
+                data.prismUp = firstHitPrismData.gameObject;
+                data.height = firstHitPrismData.height - 1;
                 break;
             case PrismData.PrismPosition.UP:
                 // data.prismUp = downPrismData.gameObject;
