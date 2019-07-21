@@ -16,6 +16,7 @@ public class PrismGenerator : MonoBehaviour {
     public Camera cam;
     public PlanetGenerator planet;
     bool addBlock = false;
+    private GameObject previsualizationPrism;
 
     public void MobileBlock() {
         addBlock = true;
@@ -65,30 +66,14 @@ public class PrismGenerator : MonoBehaviour {
         Vector3[] vertices = mesh.vertices;
         Vector3[] normals = mesh.normals;
         int[] triangles = mesh.triangles;
-        if (CrossPlatformInputManager.GetButtonDown("Fire1") || addBlock) {
-            /*  print("Yolo");
-              print(hit.collider.gameObject.transform.position.normalized);
-              print(hit.normal);
-              print(hit.collider.gameObject.transform.position.normalized.isEqual(hit.normal, 10));
-              */
-            /* Vector3 v1 = hit.collider.gameObject.transform.position.normalized;
-             Vector3 v2 = hit.normal;
-             int x1 = (int)(v1.x * 10);
-             print(x1);
-             int y1 = (int)(v1.y * 10);
-             int z1 = (int)(v1.z * 10);
-             int x2 = (int)(v2.x * 10);
-             print(x2);
-             int y2 = (int)(v2.y * 10);
-             int z2 = (int)(v2.z * 10);*/
+        bool isPuttingPrism = CrossPlatformInputManager.GetButtonDown("Fire1") || addBlock;
+        if (isPuttingPrism || hit.collider.gameObject != previsualizationPrism) {
 
-            //print(triangles.toString());
-
-
+            GameObject newPrism = null;
             if (hit.collider.gameObject.transform.position.normalized.isAproximated(hit.normal, 0.1f) || hit.collider.gameObject.transform.parent == planet.transform)
-                PutBlock(vertices, triangles, hit, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.UP);
+                newPrism = PutBlock(vertices, triangles, hit, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.UP);
             else if (hit.collider.gameObject.transform.position.normalized.isAproximated(-hit.normal, 0.1f)) {
-                PutBlock(vertices, triangles, hit, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.DOWN, true);
+                newPrism = PutBlock(vertices, triangles, hit, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.DOWN, true);
             } else {
                 Vector3 mediumPointOfPrism = Vector3.zero;
                 foreach(Vector3 v in vertices) {
@@ -98,11 +83,7 @@ public class PrismGenerator : MonoBehaviour {
 
                 float distBetweenVertices = Vector3.Distance(vertices[0], vertices[1]);
 
-
                 RaycastHit hit2;
-               /* print("Hit");
-                print(hit.point + hit.normal);
-                print((planet.transform.position - hit.collider.gameObject.transform.position).normalized * 100);*/
                 initTest = hit.collider.gameObject.transform.position + mediumPointOfPrism + hit.normal.normalized * (distBetweenVertices/2 + 0.001f);
                 finalTest = (planet.transform.position - hit.collider.gameObject.transform.position).normalized * 100;
 
@@ -111,75 +92,20 @@ public class PrismGenerator : MonoBehaviour {
                     if (meshCollider == null || meshCollider.sharedMesh == null)
                         return;
 
-                    //print(mc.sharedMesh.vertices.toString());
-                    //print(mc.sharedMesh.triangles);
-                    
-
-                    PutBlock(mc.sharedMesh.vertices, mc.sharedMesh.triangles, hit2, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.AROUND);
+                    newPrism = PutBlock(mc.sharedMesh.vertices, mc.sharedMesh.triangles, hit2, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.AROUND);
                 }
 
-                /*GameObject go = GameObject.Instantiate(hit.collider.gameObject, hit.collider.transform.parent);
-                go.transform.position += hit.normal;
-                go.transform.Rotate(Vector3.Cross(hit.normal, new Vector3(45, 0, 0)));*/
+                //return;
+            }
 
-                return;
+            if (previsualizationPrism != null)
+                previsualizationPrism.SetActive(false);
 
-
-                for (int i = 0; i <= triangles.Length; i++) {
-                    Vector3 v1 = vertices[triangles[i * 3 + 0]];
-                    Vector3 v2 = vertices[triangles[i * 3 + 1]];
-                    Vector3 v3 = vertices[triangles[i * 3 + 2]];
-
-                    Vector3 dir = (planet.transform.position - hit.collider.gameObject.transform.position).normalized;
-
-                    if (GetNormal(v1, v2, v3).isAproximated(dir, 0.1f)) {
-                        //PutBlock(v1, v2, v3, triangles, hit);
-                        Vector3 auxPoint = hit.collider.gameObject.transform.position + hit.normal.normalized * 10;
-                        Vector3[] nearestPoints = new Vector3[] { v1, v2 };
-                        Vector3[] allPoints = new Vector3[] { v1, v2, v3 };
-
-                        2.Times(() => {
-                            foreach (Vector3 v in allPoints) {
-                                float dist = Vector3.Distance(auxPoint, v);
-
-                                for (int j = 0; j < nearestPoints.Length; j++) {
-                                    if (dist < Vector3.Distance(auxPoint, nearestPoints[j]) && !nearestPoints.Contains(v)) {
-                                        nearestPoints[j] = v;
-                                        break;
-                                    }
-                                }
-                            }
-                        });
-
-                        Vector3 farPoint = Vector3.zero;
-                        foreach (Vector3 v in allPoints) {
-                            if (v != nearestPoints[0] && v != nearestPoints[1])
-                                farPoint = v;
-                        }
-
-                        if (farPoint == v1) {
-                            planet.CreatePrismGameObject(new Vector3[] {
-                                GetThirdVertexOfTriangle(v1, v2, v3, hit.collider.gameObject.transform.position, hit.normal),
-                                v2 + hit.collider.gameObject.transform.position,
-                                v3 + hit.collider.gameObject.transform.position
-                            });
-                        } else if (farPoint == v2) {
-                            planet.CreatePrismGameObject(new Vector3[] {
-                                v1 + hit.collider.gameObject.transform.position/* + hit.normal*/,
-                                GetThirdVertexOfTriangle(v2, v1, v3, hit.collider.gameObject.transform.position, hit.normal),
-                                v3 + hit.collider.gameObject.transform.position
-                            });
-                        } else if (farPoint == v3) {
-                            planet.CreatePrismGameObject(new Vector3[] {
-                                v1 + hit.collider.gameObject.transform.position/* + hit.normal*/,
-                                v2 + hit.collider.gameObject.transform.position,
-                                GetThirdVertexOfTriangle(v3, v1, v2, hit.collider.gameObject.transform.position, hit.normal)
-                            });
-                        }
-
-                        break;
-                    }
-                }
+            if (!isPuttingPrism){
+                previsualizationPrism = newPrism;
+                Color color = previsualizationPrism.GetComponent<MeshRenderer>().material.color;
+                color.a = 0f;
+                previsualizationPrism.GetComponent<Renderer>().material.color = color;
             }
         }
         Color[] colors = new Color[vertices.Length];
@@ -228,18 +154,9 @@ public class PrismGenerator : MonoBehaviour {
         float actualDistanceToPlanet = Vector3.Distance(planet.transform.position, ret);
         float distToAproachToPlanet = actualDistanceToPlanet - correctDistanceToPlanet;
         Vector3 dirToPlanet = (planet.transform.position - ret).normalized;
-        /*   print("V1 " + v1);
-           print(correctDistanceToPlanet);
-           print(actualDistanceToPlanet);
-           print(dirToPlanet);
-           print(ret);*/
+
         if (with)
             ret += dirToPlanet * distToAproachToPlanet;
-        // print(ret);
-
-        /*Vector3 mediumPoint = ((ret + v1) / 2 + planet.transform.position) / 2;
-
-        ret = ret * correctDistanceToPlanet / actualDistanceToPlanet;*/
 
         return ret;
     }
@@ -265,7 +182,7 @@ public class PrismGenerator : MonoBehaviour {
         }
     }
 
-    void PutBlock(Vector3[] vertices, int[] triangles, RaycastHit hit, PrismData data, PrismData.PrismPosition prismPos, bool inverseNormals = false) {
+    GameObject PutBlock(Vector3[] vertices, int[] triangles, RaycastHit hit, PrismData data, PrismData.PrismPosition prismPos, bool inverseNormals = false) {
 
         Vector3 p0 = vertices[triangles[hit.triangleIndex * 3 + 0]];
         Vector3 p1 = vertices[triangles[hit.triangleIndex * 3 + 1]];
@@ -275,12 +192,6 @@ public class PrismGenerator : MonoBehaviour {
         p1 = hitTransform.TransformPoint(p1);
         p2 = hitTransform.TransformPoint(p2);
 
-        if (prismPos == PrismData.PrismPosition.DOWN) {
-            print(p0);
-            print(p1);
-            print(p2);
-        }
-
-        planet.CreatePrismGameObject(new Vector3[] { p0, p1, p2 }, data, hit.collider.gameObject.GetComponent<PrismData>(), prismPos, inverseNormals);
+        return planet.CreatePrismGameObject(new Vector3[] { p0, p1, p2 }, data, hit.collider.gameObject.GetComponent<PrismData>(), prismPos, inverseNormals);
     }
 }
