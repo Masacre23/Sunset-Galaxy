@@ -7,14 +7,14 @@ using ExtensionMethods;
 using System.Linq.Expressions;
 using System;
 
-public class HighlightTriangle : MonoBehaviour {
+public class PrismGenerator : MonoBehaviour {
 
     Color highlightColor = Color.red;
     Color previousColor;
     private Mesh lastMesh;
     private Vector3 lastHitNormal;
     public Camera cam;
-    public GeneratePlanet planet;
+    public PlanetGenerator planet;
     bool addBlock = false;
 
     public void MobileBlock() {
@@ -158,19 +158,19 @@ public class HighlightTriangle : MonoBehaviour {
                         }
 
                         if (farPoint == v1) {
-                            planet.CreatePieceGameObject(new Vector3[] {
+                            planet.CreatePrismGameObject(new Vector3[] {
                                 GetThirdVertexOfTriangle(v1, v2, v3, hit.collider.gameObject.transform.position, hit.normal),
                                 v2 + hit.collider.gameObject.transform.position,
                                 v3 + hit.collider.gameObject.transform.position
                             });
                         } else if (farPoint == v2) {
-                            planet.CreatePieceGameObject(new Vector3[] {
+                            planet.CreatePrismGameObject(new Vector3[] {
                                 v1 + hit.collider.gameObject.transform.position/* + hit.normal*/,
                                 GetThirdVertexOfTriangle(v2, v1, v3, hit.collider.gameObject.transform.position, hit.normal),
                                 v3 + hit.collider.gameObject.transform.position
                             });
                         } else if (farPoint == v3) {
-                            planet.CreatePieceGameObject(new Vector3[] {
+                            planet.CreatePrismGameObject(new Vector3[] {
                                 v1 + hit.collider.gameObject.transform.position/* + hit.normal*/,
                                 v2 + hit.collider.gameObject.transform.position,
                                 GetThirdVertexOfTriangle(v3, v1, v2, hit.collider.gameObject.transform.position, hit.normal)
@@ -281,6 +281,6 @@ public class HighlightTriangle : MonoBehaviour {
             print(p2);
         }
 
-        planet.CreatePieceGameObject(new Vector3[] { p0, p1, p2 }, data, hit.collider.gameObject.GetComponent<PrismData>(), prismPos, inverseNormals);
+        planet.CreatePrismGameObject(new Vector3[] { p0, p1, p2 }, data, hit.collider.gameObject.GetComponent<PrismData>(), prismPos, inverseNormals);
     }
 }

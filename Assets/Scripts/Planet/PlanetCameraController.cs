@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour {
+public class PlanetCameraController : MonoBehaviour {
     public float m_MouseDragSensitivity = 1.0f; // How fast does the planet spin when you click and drag?
     public float m_MouseZoomSensitivity = 1.0f; // How fast does the mouse wheel zoom you in and out?
 

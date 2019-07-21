@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ExtensionMethods;
 using UnityEngine;
 
-public class GeneratePlanet : MonoBehaviour {
+public class PlanetGenerator : MonoBehaviour {
     public Material groundMaterial;
     public Material waterMaterial;
     public float planetSize = 1f;
@@ -104,7 +104,7 @@ public class GeneratePlanet : MonoBehaviour {
         lava.transform.parent = gameObject.transform;
     }
 
-    public GameObject CreatePieceGameObject(Vector3[] vertices, PrismData firstHitPrismData = default(PrismData), PrismData downPrismData = default(PrismData), PrismData.PrismPosition prismPosition = PrismData.PrismPosition.DOWN, bool inverseNormals = false) {
+    public GameObject CreatePrismGameObject(Vector3[] vertices, PrismData firstHitPrismData = default(PrismData), PrismData downPrismData = default(PrismData), PrismData.PrismPosition prismPosition = PrismData.PrismPosition.DOWN, bool inverseNormals = false) {
         GameObject prism = new GameObject();
         int height = 0;
         // if (downPrismData != null) {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager: MonoBehaviour {
     public enum PlanetMaterial { DIRT, WATER, LAVA }
-    public GeneratePlanet planet;
+    public PlanetGenerator planet;
     public Camera cam;
     public GameObject waterDrop;
     public GameObject lavaDrop;
@@ -66,7 +66,7 @@ public class GameManager: MonoBehaviour {
         Vector3 initPos = cam.transform.position + cam.transform.forward * 2;
         switch (currentMaterial) {
             case PlanetMaterial.DIRT:
-                GameObject block = planet.CreatePieceGameObject(new Vector3[] { p0, p1, p2 });
+                GameObject block = planet.CreatePrismGameObject(new Vector3[] { p0, p1, p2 });
                 Vector3 finalPos = block.transform.position;
                 StartCoroutine(LaunchBlock(block.transform, initPos, finalPos, 5f));
                 break;
