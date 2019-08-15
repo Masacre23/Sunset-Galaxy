@@ -71,9 +71,9 @@ public class PrismGenerator : MonoBehaviour {
 
             GameObject newPrism = null;
             if (hit.collider.gameObject.transform.position.normalized.isAproximated(hit.normal, 0.1f) || hit.collider.gameObject.transform.parent == planet.transform)
-                newPrism = PutBlock(vertices, triangles, hit, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.UP);
+                newPrism = PutBlock(vertices, triangles, hit, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.UP, isPrevisualization: !isPuttingPrism);
             else if (hit.collider.gameObject.transform.position.normalized.isAproximated(-hit.normal, 0.1f)) {
-                newPrism = PutBlock(vertices, triangles, hit, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.DOWN, true);
+                newPrism = PutBlock(vertices, triangles, hit, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.DOWN, true, !isPuttingPrism);
             } else {
                 Vector3 mediumPointOfPrism = Vector3.zero;
                 foreach(Vector3 v in vertices) {
@@ -92,7 +92,7 @@ public class PrismGenerator : MonoBehaviour {
                     if (meshCollider == null || meshCollider.sharedMesh == null)
                         return;
 
-                    newPrism = PutBlock(mc.sharedMesh.vertices, mc.sharedMesh.triangles, hit2, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.AROUND);
+                    newPrism = PutBlock(mc.sharedMesh.vertices, mc.sharedMesh.triangles, hit2, hit.collider.gameObject.GetComponent<PrismData>(), PrismData.PrismPosition.AROUND, isPrevisualization: !isPuttingPrism);
                 }
 
                 //return;
@@ -103,9 +103,6 @@ public class PrismGenerator : MonoBehaviour {
 
             if (!isPuttingPrism){
                 previsualizationPrism = newPrism;
-                Color color = previsualizationPrism.GetComponent<MeshRenderer>().material.color;
-                color.a = 0f;
-                previsualizationPrism.GetComponent<Renderer>().material.color = color;
             }
         }
         Color[] colors = new Color[vertices.Length];
@@ -179,10 +176,13 @@ public class PrismGenerator : MonoBehaviour {
 
             lastMesh = null;
             lastHitNormal = Vector3.zero;
+            if(previsualizationPrism != null)
+                previsualizationPrism.SetActive(false);
+            previsualizationPrism = null;
         }
     }
 
-    GameObject PutBlock(Vector3[] vertices, int[] triangles, RaycastHit hit, PrismData data, PrismData.PrismPosition prismPos, bool inverseNormals = false) {
+    GameObject PutBlock(Vector3[] vertices, int[] triangles, RaycastHit hit, PrismData data, PrismData.PrismPosition prismPos, bool inverseNormals = false, bool isPrevisualization = false) {
 
         Vector3 p0 = vertices[triangles[hit.triangleIndex * 3 + 0]];
         Vector3 p1 = vertices[triangles[hit.triangleIndex * 3 + 1]];
@@ -192,6 +192,6 @@ public class PrismGenerator : MonoBehaviour {
         p1 = hitTransform.TransformPoint(p1);
         p2 = hitTransform.TransformPoint(p2);
 
-        return planet.CreatePrismGameObject(new Vector3[] { p0, p1, p2 }, data, hit.collider.gameObject.GetComponent<PrismData>(), prismPos, inverseNormals);
+        return planet.CreatePrismGameObject(new Vector3[] { p0, p1, p2 }, data, hit.collider.gameObject.GetComponent<PrismData>(), prismPos, inverseNormals, isPrevisualization);
     }
 }

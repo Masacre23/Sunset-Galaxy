@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -659,6 +659,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundMaterial: {fileID: 2100000, guid: aa995271ff5043544b126eb58b9e4fc5, type: 2}
   waterMaterial: {fileID: 2100000, guid: 8c2657db5e13eb34fa2ab80197d00620, type: 2}
+  previsualizationMaterial: {fileID: 2100000, guid: bdaccca86f2294647937320e99c15005,
+    type: 2}
   planetSize: 5
 --- !u!23 &391213401
 MeshRenderer:

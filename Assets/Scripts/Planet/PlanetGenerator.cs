@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlanetGenerator : MonoBehaviour {
     public Material groundMaterial;
     public Material waterMaterial;
+    public Material previsualizationMaterial;
     public float planetSize = 1f;
     GameObject planet;
     GameObject water;
@@ -19,8 +20,8 @@ public class PlanetGenerator : MonoBehaviour {
 
     Color32 colorOcean = new Color32(0, 80, 220, 0);
     Color32 colorLava = new Color32(220, 80, 0, 0);
-    Color32 colorGrass = new Color32(0, 220, 0, 0);
-    Color32 colorDirt = new Color32(180, 140, 20, 0);
+    Color32 colorGrass = new Color32(0, 220, 0, 100);
+    Color32 colorDirt = new Color32(180, 140, 20, 100);
     Color32 colorDeepOcean = new Color32(0, 40, 110, 0);
 
     float prismSize = 0.1f;
@@ -104,7 +105,7 @@ public class PlanetGenerator : MonoBehaviour {
         lava.transform.parent = gameObject.transform;
     }
 
-    public GameObject CreatePrismGameObject(Vector3[] vertices, PrismData firstHitPrismData = default(PrismData), PrismData downPrismData = default(PrismData), PrismData.PrismPosition prismPosition = PrismData.PrismPosition.DOWN, bool inverseNormals = false) {
+    public GameObject CreatePrismGameObject(Vector3[] vertices, PrismData firstHitPrismData = default(PrismData), PrismData downPrismData = default(PrismData), PrismData.PrismPosition prismPosition = PrismData.PrismPosition.DOWN, bool inverseNormals = false, bool isPrevisualization = false) {
         GameObject prism = new GameObject();
         int height = 0;
         // if (downPrismData != null) {
@@ -162,7 +163,10 @@ public class PlanetGenerator : MonoBehaviour {
             );
 
         Mesh mesh = prism.AddComponent<MeshFilter>().mesh;
-        prism.AddComponent<MeshRenderer>().material = groundMaterial;
+        if(isPrevisualization)
+            prism.AddComponent<MeshRenderer>().material = previsualizationMaterial;
+        else
+            prism.AddComponent<MeshRenderer>().material = groundMaterial;
 
         Vector3[] verticesRelatedToParent = {
             vertices[0] - prism.transform.position,
@@ -176,10 +180,11 @@ public class PlanetGenerator : MonoBehaviour {
             oppositeVertices[2] - prism.transform.position
         };
 
-        Prism.Create(prism, verticesRelatedToParent, oppositeVerticesRelatedToParent, inverseNormals);
+        Prism.Create(prism, verticesRelatedToParent, oppositeVerticesRelatedToParent, inverseNormals, isPrevisualization);
         prism.transform.parent = planet.transform;
 
-        mesh.SetColors(colorGrass, colorDirt);
+        if(!isPrevisualization)
+            mesh.SetColors(colorGrass, colorDirt);
 
         PrismData data = prism.AddComponent<PrismData>();
         /*   print(prism.transform.position);

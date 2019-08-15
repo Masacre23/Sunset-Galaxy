@@ -759,7 +759,7 @@ PlayerSettings:
   cloudServicesEnabled:
     UNet: 1
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 3
   cloudProjectId: 3698b7f9-a0b6-4cd6-b0c4-abb877c48bb0
   projectName: Sunset Galaxy
   organizationId: masacre

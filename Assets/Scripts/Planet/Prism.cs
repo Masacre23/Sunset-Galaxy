@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Prism {
 
-    public static void Create(GameObject gameObject, Vector3[] verticesOfPlanet, Vector3[] oppositeVertices, bool inverseNormals = false) {
+    public static void Create(GameObject gameObject, Vector3[] verticesOfPlanet, Vector3[] oppositeVertices, bool inverseNormals = false, bool withoutCollider = false) {
 
         Vector3 p0 = verticesOfPlanet[0];
         Vector3 p1 = verticesOfPlanet[1];
@@ -90,7 +90,8 @@ public static class Prism {
             }
         }
 
-        (gameObject.AddComponent(typeof(MeshCollider)) as MeshCollider).sharedMesh = mesh;
+        if(!withoutCollider)
+            (gameObject.AddComponent(typeof(MeshCollider)) as MeshCollider).sharedMesh = mesh;
     }
 
 
