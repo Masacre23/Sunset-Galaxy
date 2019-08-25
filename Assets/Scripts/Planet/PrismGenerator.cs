@@ -7,16 +7,19 @@ using ExtensionMethods;
 using System.Linq.Expressions;
 using System;
 
-public class PrismGenerator : MonoBehaviour {
+public class PrismGenerator {
 
     Color highlightColor = Color.red;
     Color previousColor;
     private Mesh lastMesh;
     private Vector3 lastHitNormal;
-    public Camera cam;
-    public PlanetGenerator planet;
+    PlanetGenerator planet;
     bool addBlock = false;
-    private GameObject previsualizationPrism;
+    public GameObject previsualizationPrism;
+
+    public PrismGenerator(PlanetGenerator planet) {
+        this.planet = planet;
+    }
 
     public void MobileBlock() {
         addBlock = true;
@@ -25,9 +28,8 @@ public class PrismGenerator : MonoBehaviour {
     Vector3 initTest = Vector3.zero;
     Vector3 finalTest = Vector3.zero;
     void Update() {
-        Debug.DrawLine(initTest, finalTest, Color.green);
+        /*Debug.DrawLine(initTest, finalTest, Color.green);
         RaycastHit hit;
-        //if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit)) {
         if (cam) {
             Debug.DrawLine(cam.transform.position, cam.transform.forward * 100, Color.red);
             if (Physics.Raycast(cam.transform.position, cam.transform.forward * 100, out hit)) {
@@ -42,7 +44,7 @@ public class PrismGenerator : MonoBehaviour {
             } else {
                 RemoveHighlights();
             }
-        }
+        }*/
     }
 
     private Vector3 GetNormal(Vector3 a, Vector3 b, Vector3 c) {
@@ -54,7 +56,7 @@ public class PrismGenerator : MonoBehaviour {
         return Vector3.Cross(side1, side2).normalized;
     }
 
-    void HighlightSelectedFace(RaycastHit hit) {
+    public void HighlightSelectedFace(RaycastHit hit) {
         if (lastHitNormal != Vector3.zero) {
             RemoveHighlights();
         }
@@ -143,9 +145,9 @@ public class PrismGenerator : MonoBehaviour {
 
         ret = v1 + Vector3.Distance(v1, oppositeVertex) * dirV1ToDestPoint + prismaPosReference;
 
-        print(dirV1ToOppositeVertex);
+        /*print(dirV1ToOppositeVertex);
         print(Vector3.Normalize(normal));
-        print(dirV1ToDestPoint);
+        print(dirV1ToDestPoint);*/
 
         float correctDistanceToPlanet = Vector3.Distance(planet.transform.position, v1 + prismaPosReference);
         float actualDistanceToPlanet = Vector3.Distance(planet.transform.position, ret);
