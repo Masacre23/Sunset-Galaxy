@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 411979982}
   - component: {fileID: 411979981}
   - component: {fileID: 411979980}
-  - component: {fileID: 411979984}
+  - component: {fileID: 411979983}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -806,20 +806,22 @@ Transform:
   m_Father: {fileID: 1132302729}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &411979984
+--- !u!114 &411979983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 411979979}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71d72dee5a329424eb93933ecc015356, type: 3}
+  m_Script: {fileID: 11500000, guid: c5c074b4bb2bd6d43b64b26f3b16044e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 411979981}
-  planet: {fileID: 391213400}
+  type: 0
+  objectToSpawn: {fileID: 4036944642516579739, guid: 2bde49cb4c051d14a882a9f4d26e7f62,
+    type: 3}
+  previsualizationMaterial: {fileID: 0}
 --- !u!1 &443474695
 GameObject:
   m_ObjectHideFlags: 0
@@ -2030,11 +2032,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1260296536}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71d72dee5a329424eb93933ecc015356, type: 3}
+  m_Script: {fileID: 11500000, guid: c5c074b4bb2bd6d43b64b26f3b16044e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  planet: {fileID: 391213400}
+  type: 0
+  objectToSpawn: {fileID: 0}
+  previsualizationMaterial: {fileID: 0}
 --- !u!1 &1388024101
 GameObject:
   m_ObjectHideFlags: 0
@@ -2183,7 +2186,7 @@ GameObject:
   - component: {fileID: 1418454282}
   - component: {fileID: 1418454286}
   - component: {fileID: 1418454285}
-  - component: {fileID: 1418454283}
+  - component: {fileID: 1418454284}
   m_Layer: 0
   m_Name: FPCamera
   m_TagString: MainCamera
@@ -2205,7 +2208,7 @@ Transform:
   m_Father: {fileID: 1701407060}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1418454283
+--- !u!114 &1418454284
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2214,11 +2217,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1418454281}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71d72dee5a329424eb93933ecc015356, type: 3}
+  m_Script: {fileID: 11500000, guid: c5c074b4bb2bd6d43b64b26f3b16044e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 1418454286}
-  planet: {fileID: 391213400}
+  type: 0
+  objectToSpawn: {fileID: 298929678978255942, guid: e0504ec32cea15748915973586930932,
+    type: 3}
+  previsualizationMaterial: {fileID: 2100000, guid: bdaccca86f2294647937320e99c15005,
+    type: 2}
 --- !u!81 &1418454285
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3057,7 +3063,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1260296538}
+      - m_Target: {fileID: 0}
         m_MethodName: MobileBlock
         m_Mode: 1
         m_Arguments:
