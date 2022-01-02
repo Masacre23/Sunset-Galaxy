@@ -20,7 +20,10 @@ public class ObjectSpawner : MonoBehaviour
     void Update() {
         if (CrossPlatformInputManager.GetButtonDown("Fire2"))
         {
-            type = Type.OTHER;
+            if (type == Type.OTHER)
+                type = Type.PRISM;
+            else
+                type = Type.OTHER;
         }
 
         RaycastHit hit;

@@ -141,7 +141,7 @@ public class PlanetGenerator : MonoBehaviour {
                         };
                     });
                     break;
-            }   
+            }
         //}
 
         Vector3[] oppositeVertices = {
@@ -222,7 +222,6 @@ public class PlanetGenerator : MonoBehaviour {
                 data.height = firstHitPrismData.height;
                 break;
         }
-
         return prism;
     }
 
