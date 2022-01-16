@@ -1,4 +1,6 @@
 # Sunset-Galaxy
 Spherical minecraft
 
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/RazqcQx_HPw)
+Click to see the video:
+
+[![Img alt text](https://img.youtube.com/vi/RazqcQx_HPw/0.jpg)](https://www.youtube.com/watch?v=RazqcQx_HPw)
